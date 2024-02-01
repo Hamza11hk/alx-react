@@ -1,14 +1,14 @@
-const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-  entry: './task_5/dashboard/src/index.js',
+  entry: './src/index.js',
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'task_5/dashboard/dist'),
+    path: __dirname + '/../dist',
   },
   devServer: {
-    contentBase: './task_5/dashboard/dist',
+    contentBase: './dist',
     hot: true,
   },
   module: {
@@ -21,24 +21,31 @@ module.exports = {
         },
       },
       {
+        test: /\.jsx$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+        },
+      },
+      {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.(png|jpe?g|gif)$/i,
-        use: [
-          {
-            loader: 'file-loader',
-          },
-        ],
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
       },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './task_5/dashboard/src/index.html',
-      filename: 'index.html',
+      template: './src/index.html',
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: 'src/index.html', to: 'index.html' },
+      ],
     }),
   ],
-  devtool: 'inline-source-map',
 };
+
