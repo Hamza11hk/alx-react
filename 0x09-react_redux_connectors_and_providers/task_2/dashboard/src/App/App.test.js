@@ -94,4 +94,3 @@ describe("App Redux", () => {
     expect(result).toEqual({ displayDrawer: true });
   });
 });
-
